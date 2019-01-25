@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Demo Dating App</string>
+    <string name="detail_introduction_title">Első randis tervekről pár szóban</string>
 </resources>
