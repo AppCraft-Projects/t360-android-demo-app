@@ -21,9 +21,12 @@ class ListFragment: Fragment() {
 
         viewModel = ViewModelProviders.of(this, PersonViewModelFactory.INSTANCE)
             .get(PersonListViewModel::class.java)
+
         val adapter = PersonAdapter()
         binding.personList.adapter = adapter
+
         viewModel.persons.observe(this, Observer {
+            binding.listResource = it
             if (it != null) adapter.submitList(it.data)
         })
         return binding.root

@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
+<data>
+    <variable name="personResource"
+              type="com.example.demodatingapp.vo.Resource"/>
+</data>
+
 <androidx.coordinatorlayout.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/outer_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+    <include
+            layout="@layout/status_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:resource="@{personResource}"/>
 
     <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -26,7 +38,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/person_detail_introduction"
-                    android:padding="16dp"/>
+                    android:padding="16dp"
+                    app:visibleGone="@{personResource.data != null}"/>
 
         </LinearLayout>
 
@@ -45,7 +58,8 @@
                 app:contentScrim="@android:color/transparent"
                 app:expandedTitleMarginStart="48dp"
                 app:expandedTitleMarginEnd="64dp"
-                android:fitsSystemWindows="true">
+                android:fitsSystemWindows="true"
+                app:visibleGone="@{personResource.data != null}">
 
             <com.example.demodatingapp.view.PersonDetailGalleryView
                     android:id="@+id/gallery"

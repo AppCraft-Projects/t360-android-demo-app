@@ -21,13 +21,17 @@ class DetailFragment: Fragment(), GalleryListener {
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+
         mBinding = FragmentDetailBinding.inflate(inflater, container, false)
+
         val model = ViewModelProviders.of(this, PersonViewModelFactory.INSTANCE)
             .get(PersonDetailViewModel::class.java)
+
         val personId = DetailFragmentArgs.fromBundle(arguments!!).personId
         model.getUser(personId).observe(this, Observer {
-            if (it != null) {
-                mBinding.gallery.mViewPager.adapter = GalleryAdapter(it.data!!.galleryImages, mBinding.root.context, this)
+            mBinding.personResource = it
+            if (it?.data != null) {
+                mBinding.gallery.mViewPager.adapter = GalleryAdapter(it.data.galleryImages, mBinding.root.context, this)
                 mBinding.personDetailHeader.binding.person = it.data
                 mBinding.personDetailIntroduction.binding.person = it.data
             }
