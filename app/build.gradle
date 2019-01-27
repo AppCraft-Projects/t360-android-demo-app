@@ -13,6 +13,14 @@ android {
     dataBinding {
         enabled true
     }
+    signingConfigs {
+        release {
+            storeFile file('../signing/signingkeystore')
+            storePassword 'T360Jingle'
+            keyAlias 'key0'
+            keyPassword 'T360Jingle'
+        }
+    }
     defaultConfig {
         applicationId "com.example.demodatingapp"
         minSdkVersion 25
@@ -29,7 +37,9 @@ android {
         release {
             // Ide jönne egy production URL
             buildConfigField "String", "BASE_URL", "\"http://${getIP().toString()}:8080\""
+            debuggable true
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -79,6 +89,13 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
 
+    implementation 'com.google.firebase:firebase-core:16.0.6'
+    implementation 'com.google.firebase:firebase-auth:16.1.0'
+    implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
+    implementation 'com.facebook.android:facebook-android-sdk:4.39.0'
+
     kapt 'androidx.lifecycle:lifecycle-compiler:2.0.0'
     kapt 'androidx.room:room-compiler:2.1.0-alpha03'
 }
+
+apply plugin: 'com.google.gms.google-services'

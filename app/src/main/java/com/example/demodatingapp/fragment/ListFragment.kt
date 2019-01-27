@@ -13,6 +13,7 @@ import com.example.demodatingapp.databinding.FragmentListBinding
 import com.example.demodatingapp.util.RetryCallback
 import com.example.demodatingapp.viewmodel.PersonListViewModel
 import com.example.demodatingapp.viewmodel.factory.PersonViewModelFactory
+import com.google.firebase.auth.FirebaseAuth
 
 class ListFragment: Fragment() {
 
@@ -45,6 +46,9 @@ class ListFragment: Fragment() {
             override fun retry() {
                 viewModel.retry()
             }
+        }
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            findNavController().navigate(ListFragmentDirections.NavigationToRegister())
         }
     }
 

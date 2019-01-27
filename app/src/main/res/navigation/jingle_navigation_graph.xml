@@ -18,6 +18,16 @@
         <action
                 android:id="@+id/navigation_to_map"
                 app:destination="@id/fragment_map"/>
+
+        <action
+                android:id="@+id/navigation_to_register"
+                app:destination="@id/fragment_register"/>
+    </fragment>
+
+    <fragment
+            android:id="@+id/fragment_register"
+            android:name="com.example.demodatingapp.fragment.RegistrationFragment"
+            android:label="@string/registration_fragment_title">
     </fragment>
 
     <fragment
