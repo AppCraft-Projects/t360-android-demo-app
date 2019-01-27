@@ -32,7 +32,8 @@
             <com.example.demodatingapp.view.PersonDetailHeaderView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/person_detail_header"/>
+                    android:id="@+id/person_detail_header"
+                    app:visibleGone="@{personResource.data != null}"/>
 
             <com.example.demodatingapp.view.PersonDetailIntroductionView
                     android:layout_width="match_parent"
