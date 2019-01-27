@@ -27,8 +27,24 @@
     <fragment
             android:id="@+id/fragment_register"
             android:name="com.example.demodatingapp.fragment.RegistrationFragment"
-            android:label="@string/registration_fragment_title">
+            android:label="@string/registration_fragment_title"
+            tools:layout="@layout/fragment_register">
+
+        <action
+                android:id="@+id/navigation_to_webview"
+                app:destination="@id/fragment_webview"/>
     </fragment>
+
+    <fragment
+            android:id="@+id/fragment_webview"
+            android:name="com.example.demodatingapp.fragment.WebViewFragment"
+            android:label="@string/terms_and_conditions">
+
+        <argument
+                android:name="tosUrl"
+                app:argType="string"/>
+    </fragment>
+
 
     <fragment
         android:id="@+id/fragment_detail"

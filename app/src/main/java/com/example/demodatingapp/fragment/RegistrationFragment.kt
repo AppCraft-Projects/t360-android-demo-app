@@ -28,14 +28,11 @@ class RegistrationFragment: Fragment() {
     companion object {
         const val SIGN_IN_REQUEST_CODE = 1102
         val FACEBOOK_PERMISSIONS = listOf("email", "public_profile")
+        const val TERMS_OF_SERVICE_URL = "https://t360-jingleapp.firebaseapp.com/t360-app-aszf.html"
     }
 
     val callbackManager = CallbackManager.Factory.create()
     val facebookLoginManager = LoginManager.getInstance()
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = DataBindingUtil.inflate<com.example.demodatingapp.databinding.FragmentRegisterBinding>(inflater, R.layout.fragment_register, container, false)
@@ -49,6 +46,11 @@ class RegistrationFragment: Fragment() {
                     .build()
             val client = GoogleSignIn.getClient(context!!, gso)
             startActivityForResult(client.signInIntent, SIGN_IN_REQUEST_CODE)
+        }
+        binding.tosLink.setOnClickListener {
+            findNavController().navigate(
+                RegistrationFragmentDirections.navigationToWebview(TERMS_OF_SERVICE_URL)
+            )
         }
         facebookLoginManager.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(result: LoginResult?) {

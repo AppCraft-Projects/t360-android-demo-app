@@ -33,6 +33,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/jingle_logo"/>
 
+        <TextView
+                android:id="@+id/tos_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="@string/terms_and_conditions"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/app_title_textview"/>
+
         <com.firebase.ui.auth.util.ui.SupportVectorDrawablesButton
             android:id="@+id/google_sign_in_button"
             style="@style/FirebaseUI.Button.AccountChooser.GoogleButton"

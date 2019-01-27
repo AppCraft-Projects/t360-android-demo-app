@@ -13,4 +13,5 @@
     <string name="retry_button_text">Újra</string>
     <string name="map_menu_name">Térkép</string>
     <string name="registration_fragment_title">Regisztráció</string>
+    <string name="terms_and_conditions">Felhasználási feltételek</string>
 </resources>
