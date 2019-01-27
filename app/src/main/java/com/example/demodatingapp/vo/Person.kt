@@ -1,5 +1,6 @@
 package com.example.demodatingapp.vo
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Index
 import com.google.gson.annotations.SerializedName
@@ -19,5 +20,8 @@ data class Person(
     val age: Int,
     val introduction: String,
     @SerializedName("images")
-    val galleryImages: Array<String>
+    val galleryImages: Array<String>,
+    @Embedded val lastLocation: Place
 )
+
+data class Place(val latitude: Double, val longitude: Double)
