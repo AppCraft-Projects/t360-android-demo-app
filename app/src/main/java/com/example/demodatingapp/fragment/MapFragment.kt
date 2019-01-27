@@ -12,13 +12,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.demodatingapp.R
+import com.example.demodatingapp.adapter.PersonInfoWindowAdapter
 import com.example.demodatingapp.databinding.FragmentMapBinding
 import com.example.demodatingapp.util.LocationLiveData
 import com.example.demodatingapp.viewmodel.MapViewModel
 import com.example.demodatingapp.viewmodel.factory.PersonViewModelFactory
+import com.example.demodatingapp.vo.Person
 import com.example.demodatingapp.vo.Place
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -37,9 +40,13 @@ class MapFragment: Fragment() {
 
     private var locationObserver: LocationLiveData? = null
 
+    private lateinit var infoWindowAdapter: PersonInfoWindowAdapter
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map, container, false)
         setHasOptionsMenu(true)
+
         binding.mapView.onCreate(savedInstanceState)
         binding.mapView.getMapAsync {
             googleMap = it
@@ -47,16 +54,22 @@ class MapFragment: Fragment() {
                 observeDeviceLocation()
                 true
             }
+            googleMap!!.setInfoWindowAdapter(infoWindowAdapter)
+
             checkForPermissions()
             observePersons()
         }
+
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         viewModel = ViewModelProviders.of(this, PersonViewModelFactory(application()))
             .get(MapViewModel::class.java)
+
+        infoWindowAdapter = PersonInfoWindowAdapter(requireContext())
     }
 
     override fun onResume() {
@@ -112,6 +125,7 @@ class MapFragment: Fragment() {
     @SuppressLint("MissingPermission")
     private fun setupGoogleMap() {
         googleMap?.isMyLocationEnabled = true
+        googleMap?.uiSettings!!.isMapToolbarEnabled = false
     }
 
     private fun checkForPermissions() {
@@ -146,12 +160,22 @@ class MapFragment: Fragment() {
 
     private fun observePersons() {
         viewModel.persons.observe(this, Observer { resource ->
+            googleMap!!.clear()
+            val markers = HashMap<String, Person>()
             resource.data?.let { persons ->
-                persons.mapNotNull { person ->
-                    MarkerOptions().position(person.lastLocation.latLng)
-                }.forEach { markerOptions ->
-                    googleMap!!.addMarker(markerOptions)
+                persons.map { person ->
+                    person
+                }.forEach { person ->
+                    val latLng = person.lastLocation.latLng
+                    val options = MarkerOptions()
+                        .position(latLng)
+                        .title(person.name)
+                        .icon(BitmapDescriptorFactory.defaultMarker(353f))
+                    googleMap!!.addMarker(options).also {
+                        markers[it.id] = person
+                    }
                 }
+                infoWindowAdapter.markers = markers
             }
         })
     }
