@@ -9,15 +9,19 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.demodatingapp.R
 import com.example.demodatingapp.databinding.FragmentMapBinding
 import com.example.demodatingapp.util.LocationLiveData
 import com.example.demodatingapp.viewmodel.MapViewModel
+import com.example.demodatingapp.viewmodel.factory.PersonViewModelFactory
+import com.example.demodatingapp.vo.Place
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 
 class MapFragment: Fragment() {
 
@@ -27,7 +31,7 @@ class MapFragment: Fragment() {
 
     private lateinit var binding: FragmentMapBinding
 
-    private val viewModel = MapViewModel()
+    private lateinit var viewModel: MapViewModel
 
     private var googleMap: GoogleMap? = null
 
@@ -44,8 +48,15 @@ class MapFragment: Fragment() {
                 true
             }
             checkForPermissions()
+            observePersons()
         }
         return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProviders.of(this, PersonViewModelFactory(application()))
+            .get(MapViewModel::class.java)
     }
 
     override fun onResume() {
@@ -133,6 +144,18 @@ class MapFragment: Fragment() {
         }
     }
 
+    private fun observePersons() {
+        viewModel.persons.observe(this, Observer { resource ->
+            resource.data?.let { persons ->
+                persons.mapNotNull { person ->
+                    MarkerOptions().position(person.lastLocation.latLng)
+                }.forEach { markerOptions ->
+                    googleMap!!.addMarker(markerOptions)
+                }
+            }
+        })
+    }
+
     private fun hasLocationPermission(): Boolean {
         return ContextCompat.checkSelfPermission(context!!, Manifest.permission.ACCESS_FINE_LOCATION)
             .let {
@@ -140,3 +163,8 @@ class MapFragment: Fragment() {
             }
     }
 }
+
+private val Place.latLng: LatLng
+    get() {
+        return LatLng(latitude, longitude)
+    }
