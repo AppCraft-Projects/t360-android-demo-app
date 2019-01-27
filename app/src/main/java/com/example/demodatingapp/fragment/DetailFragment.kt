@@ -11,10 +11,13 @@ import androidx.navigation.fragment.findNavController
 import com.example.demodatingapp.adapter.GalleryAdapter
 import com.example.demodatingapp.adapter.GalleryListener
 import com.example.demodatingapp.databinding.FragmentDetailBinding
+import com.example.demodatingapp.util.RetryCallback
 import com.example.demodatingapp.viewmodel.PersonDetailViewModel
 import com.example.demodatingapp.viewmodel.factory.PersonViewModelFactory
 
 class DetailFragment: Fragment(), GalleryListener {
+
+    lateinit var viewModel: PersonDetailViewModel
 
     lateinit var mBinding: FragmentDetailBinding
 
@@ -24,11 +27,11 @@ class DetailFragment: Fragment(), GalleryListener {
 
         mBinding = FragmentDetailBinding.inflate(inflater, container, false)
 
-        val model = ViewModelProviders.of(this, PersonViewModelFactory.INSTANCE)
+        viewModel = ViewModelProviders.of(this, PersonViewModelFactory.INSTANCE)
             .get(PersonDetailViewModel::class.java)
 
         val personId = DetailFragmentArgs.fromBundle(arguments!!).personId
-        model.getUser(personId).observe(this, Observer {
+        viewModel.user.observe(this, Observer {
             mBinding.personResource = it
             if (it?.data != null) {
                 mBinding.gallery.mViewPager.adapter = GalleryAdapter(it.data.galleryImages, mBinding.root.context, this)
@@ -36,6 +39,14 @@ class DetailFragment: Fragment(), GalleryListener {
                 mBinding.personDetailIntroduction.binding.person = it.data
             }
         })
+
+        viewModel.userId = personId
+        mBinding.retryCallback = object : RetryCallback {
+            override fun retry() {
+                viewModel.retry()
+            }
+        }
+
         return mBinding.root
     }
 

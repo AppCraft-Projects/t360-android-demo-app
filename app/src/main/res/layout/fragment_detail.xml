@@ -4,6 +4,9 @@
 <data>
     <variable name="personResource"
               type="com.example.demodatingapp.vo.Resource"/>
+
+    <variable name="retryCallback"
+              type="com.example.demodatingapp.util.RetryCallback"/>
 </data>
 
 <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -79,6 +82,13 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
+
+    <include
+            layout="@layout/status_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:resource="@{personResource}"
+            app:retryCallback="@{() -> retryCallback.retry()}"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
