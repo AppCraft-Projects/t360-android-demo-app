@@ -21,7 +21,7 @@ class ImageLoader(context: Context) {
     }
 
     fun load(url: String, placeHolder: Int? = null, errorImage: Int? = null, imageView: ImageView) {
-        load(url, placeHolder, null, null, imageView)
+        load(url, placeHolder, errorImage, null, imageView)
     }
 
     fun loadCircular(url: String, placeHolder: Int? = null, errorImage: Int? = null, imageView: ImageView) {
