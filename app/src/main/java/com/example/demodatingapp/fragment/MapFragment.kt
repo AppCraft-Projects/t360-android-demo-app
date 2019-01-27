@@ -56,6 +56,12 @@ class MapFragment: Fragment() {
             }
             googleMap!!.setInfoWindowAdapter(infoWindowAdapter)
 
+            googleMap!!.setOnInfoWindowClickListener { marker ->
+                infoWindowAdapter.markers[marker.id]?.apply {
+                    findNavController().navigate(MapFragmentDirections.detailFromMap(id))
+                }
+            }
+
             checkForPermissions()
             observePersons()
         }
