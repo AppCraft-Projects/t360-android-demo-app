@@ -20,19 +20,20 @@ class ImageLoader(context: Context) {
         }
     }
 
-    fun load(url: String, placeHolder: Int? = null, imageView: ImageView) {
-        load(url, placeHolder, null, imageView)
+    fun load(url: String, placeHolder: Int? = null, errorImage: Int? = null, imageView: ImageView) {
+        load(url, placeHolder, null, null, imageView)
     }
 
-    fun loadCircular(url: String, placeHolder: Int? = null, imageView: ImageView) {
-        load(url, placeHolder, CircleTransform(), imageView)
+    fun loadCircular(url: String, placeHolder: Int? = null, errorImage: Int? = null, imageView: ImageView) {
+        load(url, placeHolder, errorImage, CircleTransform(), imageView)
     }
 
-    private fun load(url: String, placeHolder: Int?, circleTransform: CircleTransform?, imageView: ImageView) {
+    private fun load(url: String, placeHolder: Int?, errorImage: Int?, circleTransform: CircleTransform?, imageView: ImageView) {
         val uri = Uri.parse("$BASE_URL/$url")
         var creator = Picasso.get().load(uri)
         placeHolder?.let { creator = creator.placeholder(placeHolder) }
         circleTransform?.let { creator = creator.transform(circleTransform) }
+        errorImage?.let { creator = creator.error(errorImage) }
         if (!isOnline) {
             creator = creator.networkPolicy(NetworkPolicy.OFFLINE)
         }
