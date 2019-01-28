@@ -35,6 +35,24 @@ class DetailFragment: Fragment(), GalleryListener {
             .get(PersonDetailViewModel::class.java)
 
         val personId = DetailFragmentArgs.fromBundle(arguments!!).personId
+
+        mBinding.retryCallback = object : RetryCallback {
+            override fun retry() {
+                viewModel.retry()
+            }
+        }
+
+        mBinding.editPersonButton.setOnClickListener {
+            val personFields = PersonFields(person)
+            findNavController().navigate(DetailFragmentDirections.navigationToEdit(personFields))
+        }
+
+        return mBinding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         viewModel.user.observe(this, Observer {
             mBinding.personResource = it
             if (it?.data != null) {
@@ -49,20 +67,6 @@ class DetailFragment: Fragment(), GalleryListener {
                 mBinding.personDetailIntroduction.binding.person = it.data
             }
         })
-
-        viewModel.userId = personId
-        mBinding.retryCallback = object : RetryCallback {
-            override fun retry() {
-                viewModel.retry()
-            }
-        }
-
-        mBinding.editPersonButton.setOnClickListener {
-            val personFields = PersonFields(person)
-            findNavController().navigate(DetailFragmentDirections.navigationToEdit(personFields))
-        }
-
-        return mBinding.root
     }
 
     override fun onGalleryItemClicked(position: Int, imageIds: Array<String>) {
