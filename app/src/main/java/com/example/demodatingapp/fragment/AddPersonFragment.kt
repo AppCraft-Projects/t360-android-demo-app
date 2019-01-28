@@ -15,15 +15,11 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.demodatingapp.R
 import com.example.demodatingapp.databinding.FragmentAddPersonBinding
-import com.example.demodatingapp.util.ImageLoader
-import com.example.demodatingapp.util.LocationLiveData
+import com.example.demodatingapp.util.*
 import com.example.demodatingapp.viewmodel.AddPersonViewModel
 import com.example.demodatingapp.viewmodel.factory.PersonViewModelFactory
 import com.example.demodatingapp.vo.Place
 import com.example.demodatingapp.vo.Status
-import hu.appcraft.jinglerandi.util.ContentEditingParent
-import hu.appcraft.jinglerandi.util.ImageChooser
-import hu.appcraft.jinglerandi.util.ImageChooserInterface
 import java.io.File
 
 class AddPersonFragment: ContentEditingParent() {
@@ -45,6 +41,11 @@ class AddPersonFragment: ContentEditingParent() {
                 viewModel.retry()
             }
         }
+        binding.retryCallback = object : RetryCallback {
+            override fun retry() {
+                viewModel.retry()
+            }
+        }
         return binding.root
     }
 
@@ -61,7 +62,8 @@ class AddPersonFragment: ContentEditingParent() {
         binding.personFields = viewModel.personFields
         imageChooser = ImageChooser(this, arrayOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA
         ))
     }
 
