@@ -35,12 +35,19 @@ class AddPersonFragment: Fragment() {
             startActivityForResult(Intent.createChooser(intent, "Válassz képet"), REQUEST_CODE_PICK_IMAGE)
         }
 
+        binding.finishAddPersonButton.setOnClickListener {
+            if (viewModel.validate()) {
+                // continue with adding the new person
+            }
+        }
+
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(AddPersonViewModel::class.java)
+        binding.personFields = viewModel.personFields
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
