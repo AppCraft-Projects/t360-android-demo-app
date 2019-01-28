@@ -7,6 +7,12 @@
         <variable
                 name="personFields"
                 type="com.example.demodatingapp.viewmodel.PersonFields" />
+        <variable
+                name="resource"
+                type="com.example.demodatingapp.vo.Resource"/>
+        <variable
+                name="retryCallback"
+                type="com.example.demodatingapp.util.RetryCallback"/>
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
@@ -37,8 +43,8 @@
                             android:layout_marginTop="16dp"
                             android:scaleType="fitCenter"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:roundedResource="@{personFields.photoUrl}"/>
+                            app:layout_constraintTop_toTopOf="parent"/>
+
                     <TextView
                             android:id="@+id/person_visible_name"
                             android:layout_width="wrap_content"
@@ -50,6 +56,7 @@
                             android:textSize="18sp"
                             android:textColor="@android:color/primary_text_light"
                             android:text="@{personFields.displayName}"/>
+
                     <TextView
                             android:id="@+id/person_rating"
                             android:layout_width="wrap_content"
@@ -61,6 +68,7 @@
                             android:layout_marginBottom="3dp"
                             android:textSize="14sp"
                             app:starCount="@{personFields.rating}"/>
+
                     <TextView
                             android:id="@+id/person_job"
                             android:layout_width="wrap_content"
@@ -72,6 +80,7 @@
                             android:textStyle="bold"
                             android:textColor="@android:color/darker_gray"
                             android:text="@{personFields.job}"/>
+
                     <TextView
                             android:id="@+id/person_age"
                             android:layout_width="wrap_content"
@@ -102,6 +111,7 @@
                         android:id="@+id/person_job_input_container"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="25dp"
                         app:errorEnabled="@{personFields.jobError != 0}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -218,7 +228,15 @@
                 android:src="@drawable/baseline_done_24"
                 android:tint="@android:color/white"
                 app:layout_anchorGravity="bottom|end"
-                app:layout_anchor="@id/person_add_container" />
+                app:layout_anchor="@id/person_add_container"/>
+
+        <include
+                layout="@layout/status_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
+                app:resource="@{resource}"
+                app:retryCallback="@{() -> retryCallback.retry()}"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
