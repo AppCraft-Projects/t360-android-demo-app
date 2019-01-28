@@ -21,8 +21,18 @@ import okhttp3.Callback
 import okhttp3.Response
 import java.io.File
 import java.io.IOException
+import java.io.Serializable
 
-class PersonFields: BaseObservable() {
+class PersonFields(): BaseObservable(), Serializable {
+
+    constructor(person: Person): this() {
+        job = person.job
+        rating = person.rating
+        age = person.age
+        introduction = person.introduction
+        location = person.lastLocation
+        bigPhotoName = person.galleryImages.first()
+    }
 
     @Bindable
     var job = String()
