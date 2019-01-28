@@ -34,6 +34,11 @@ class DetailFragment: Fragment(), GalleryListener {
         viewModel.user.observe(this, Observer {
             mBinding.personResource = it
             if (it?.data != null) {
+                mBinding.editPersonButton.visibility = if (viewModel.email == it.data.owner) {
+                    View.VISIBLE
+                } else {
+                    View.GONE
+                }
                 mBinding.gallery.mViewPager.adapter = GalleryAdapter(it.data.galleryImages, mBinding.root.context, this)
                 mBinding.personDetailHeader.binding.person = it.data
                 mBinding.personDetailIntroduction.binding.person = it.data

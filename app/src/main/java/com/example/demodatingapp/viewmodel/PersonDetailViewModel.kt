@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.demodatingapp.repository.PersonRepository
 import com.example.demodatingapp.vo.Person
 import com.example.demodatingapp.vo.Resource
+import com.google.firebase.auth.FirebaseAuth
 
 class PersonDetailViewModel(private val repository: PersonRepository): ViewModel() {
 
@@ -20,6 +21,8 @@ class PersonDetailViewModel(private val repository: PersonRepository): ViewModel
                 retry()
             }
         }
+
+    val email = FirebaseAuth.getInstance().currentUser!!.email
 
     init {
         repoSource = repository.getPerson(userId)
