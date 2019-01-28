@@ -35,6 +35,12 @@ class ListFragment: Fragment() {
             if (it != null) adapter.submitList(it.data)
         })
 
+        mBinding.addPersonButton.setOnClickListener {
+            findNavController().navigate(
+                ListFragmentDirections.navigationToAddPerson()
+            )
+        }
+
         setHasOptionsMenu(true)
 
         return mBinding.root

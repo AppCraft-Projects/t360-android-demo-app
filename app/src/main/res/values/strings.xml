@@ -14,4 +14,10 @@
     <string name="map_menu_name">Térkép</string>
     <string name="registration_fragment_title">Regisztráció</string>
     <string name="terms_and_conditions">Felhasználási feltételek</string>
+    <string name="add_person_fragment_title">Mik a terveid?</string>
+    <string name="person_age_hint">Kor</string>
+    <string name="person_job_hint">Foglalkozás</string>
+    <string name="person_inroduction_title">Mik a terveid az első randira?</string>
+    <string name="person_introduction_hint">Írd le a randi részleteit</string>
+    <string name="person_rating_hint">Értékeld egytől ötig</string>
 </resources>
